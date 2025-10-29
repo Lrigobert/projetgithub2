@@ -1,0 +1,50 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# C extensions
+*.dll
+*.so
+*.dylib
+
+# Distribution / packaging
+.Python
+build/
+dist/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Taipy specific files
+.taipy/
+taipy.log
+
+# Environments
+.env
+venv/
+env/
+.venv/
+
+# Testing
+.pytest_cache/
+.tox/
+
+# Editors and IDEs
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+
+# Logs and data
+*.log
+*.sqlite
+data/*.csv
+data/*.json
+!data/products.json # Keep the initial data file
+
+# Uploaded files
+uploads/

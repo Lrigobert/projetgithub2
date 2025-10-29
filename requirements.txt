@@ -1,0 +1,4 @@
+taipy==3.1.0
+pandas==2.2.0
+numpy==1.26.4
+# Ajoutez d'autres dépendances si nécessaire au fur et à mesure du développement
