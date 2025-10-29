@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Taipy E-commerce : Projet Démonstration
 
 Ce projet est une application e-commerce complète, développée en Python en utilisant le framework **Taipy** (Taipy GUI et Taipy Core) pour l'interface utilisateur et la gestion des données. Il est conçu pour être simple, moderne et prêt à être déployé.
@@ -75,3 +76,7 @@ Le design est géré par la librairie Taipy GUI, assurant un rendu moderne et re
 
 ---
 *Développé avec Taipy par Manus AI*
+=======
+# projetgithub2
+projet2
+>>>>>>> 80b7985fdacca9bae12f6f9fb0d3d202ad138490
