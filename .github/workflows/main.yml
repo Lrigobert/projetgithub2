@@ -1,0 +1,77 @@
+name: CI/CD Qualité de Code
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  code_quality_check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install mypy flake8 black
+
+    - name: Run Black (Formatter)
+      run: black --check .
+      continue-on-error: true # Permet de continuer même si Black échoue
+
+    - name: Run Flake8 (Linter)
+      id: flake8_check
+      run: |
+        flake8 . > flake8_report.txt || echo "Flake8 failed"
+      continue-on-error: true # Permet de continuer même si Flake8 échoue
+
+    - name: Run Mypy (Type Checker)
+      id: mypy_check
+      run: |
+        mypy . > mypy_report.txt || echo "Mypy failed"
+      continue-on-error: true # Permet de continuer même si Mypy échoue
+
+    - name: Check for failures
+      id: check_failure
+      run: |
+        if [ -s flake8_report.txt ] || [ -s mypy_report.txt ]; then
+          echo "quality_check_failed=true" >> $GITHUB_OUTPUT
+        else
+          echo "quality_check_failed=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Generate AI Feedback on Failure
+      if: steps.check_failure.outputs.quality_check_failed == 'true'
+      env:
+        # Ceci est une variable d'environnement qui doit être configurée dans les Secrets GitHub
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      run: |
+        echo "--- Flake8 Report ---" >> combined_report.txt
+        cat flake8_report.txt >> combined_report.txt
+        echo "" >> combined_report.txt
+        echo "--- Mypy Report ---" >> combined_report.txt
+        cat mypy_report.txt >> combined_report.txt
+        
+        # Simulation de l'appel au script IA
+        echo "Simulating AI script execution with combined_report.txt..."
+        # Le script réel (phase 5) serait appelé ici:
+        # python ai_feedback.py combined_report.txt "$GITHUB_ACTOR" "$GITHUB_SHA"
+        
+        # Pour l'instant, nous allons juste créer un fichier de sortie pour la démonstration
+        echo "Le rapport d'erreur a été envoyé à l'IA pour générer un feedback personnalisé." > ai_feedback_result.txt
+        
+        # L'étape finale de blocage et d'envoi de mail serait ici.
+        # Pour bloquer l'intégration, il suffit de faire échouer l'étape.
+        # Nous allons simuler l'échec pour démontrer le blocage.
+        echo "Qualité de code non conforme. Blocage de l'intégration."
+        exit 1 # Fait échouer le workflow pour bloquer l'intégration
