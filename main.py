@@ -1,20 +1,32 @@
-# Fichier main.py - Contient des erreurs de style et de typage
+from typing import Union
 
-def calculate_sum(a, b):
-    # Erreur de style: trop d'espaces autour de l'opérateur
+
+def calculate_sum(a: Union[int, float], b: Union[int, float]) -> Union[int, float]:
+    """
+    Calcule la somme de deux nombres.
+
+    Correction mypy: Ajout d'annotations de type pour les arguments et le retour.
+    Correction flake8: Suppression des espaces excessifs autour de l'opérateur.
+    """
     result = a + b
-    
-    # Erreur de typage: 'a' et 'b' ne sont pas typés.
-    # Si 'a' est un int et 'b' est un str, cela va échouer à l'exécution.
     return result
 
-def main():
-    # Erreur de style: utilisation de guillemets simples
-    print('Démarrage du programme')
-    
-    # Erreur de typage potentielle
-    somme = calculate_sum(5, "10")
-    print(f"La somme est: {somme}")
+
+def main() -> None:
+    """
+    Point d'entrée principal du programme.
+
+    Correction flake8: Utilisation de guillemets doubles pour le style.
+    """
+    print("Démarrage du programme")
+
+    # Correction du typage potentiel: L'appel à la fonction doit utiliser des types
+    # compatibles (int ou float) pour un calcul mathématique standard.
+    # L'exemple initial (5, "10") forcerait la concaténation de chaînes si le typage
+    # n'était pas respecté.
+    sum_result = calculate_sum(5, 10)
+    print(f"La somme est: {sum_result}")
+
 
 if __name__ == "__main__":
     main()
